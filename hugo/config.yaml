@@ -1,0 +1,6 @@
+baseurl: tracycodes.com
+languageCode: en-us
+title: tracycodes
+params:
+  name: Tracy Livengood
+theme: blog-theme

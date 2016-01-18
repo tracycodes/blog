@@ -1,0 +1,10 @@
+{{ partial "top" . }}
+    <section id="main">
+      <div>
+        {{ range .Data.Pages }}
+            {{ .Render "summary"}}
+        {{ end }}
+      </div>
+    </section>
+    {{ partial "footer" . }}
+{{ partial "bottom" . }}
