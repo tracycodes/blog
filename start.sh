@@ -1,7 +1,26 @@
 echo "Starting build process.."
 
-echo "Compiling CSS.."
-cd static/css
+echo "Compiling theme CSS.."
+cd static/theme/css
+postcss_output=$(
+    postcss \
+    --use postcss-autoreset \
+    --use postcss-initial \
+    --use postcss-neat \
+    --dir /opt/$PROJECT/hugo/hugo-theme/static/css \
+    *.css 2>&1
+)
+
+if [[ $? != 0 ]]; then
+    echo "Error compiling CSS:"
+    echo $postcss_output
+    exit 1
+else
+    echo "Compiled theme CSS."
+fi;
+
+echo "Compiling site CSS.."
+cd static/site/css
 postcss_output=$(
     postcss \
     --use postcss-autoreset \
@@ -16,8 +35,9 @@ if [[ $? != 0 ]]; then
     echo $postcss_output
     exit 1
 else
-    echo "Compiled CSS."
+    echo "Compiled site CSS."
 fi;
+
 
 echo "Building site.."
 cd /opt/$PROJECT/hugo
