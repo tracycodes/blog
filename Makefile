@@ -15,7 +15,6 @@ shell: docker-build
 	docker run --rm -it -p $(FORWARDED_PORT) -v $(shell pwd):/opt/$(PROJECT) $(IMAGE) /bin/bash
 
 update_posts: docker-build
-    echo "Generating blog posts from notes directory"
 	./generate.sh $(BLOG_POST_LOCATION) $(shell pwd)/hugo
 
 server: update_posts
