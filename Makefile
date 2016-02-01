@@ -3,8 +3,8 @@ GITHASH = $(shell git rev-parse --short HEAD)
 PROJECT = blog
 IMAGE = $(USER)/$(PROJECT)
 RELEASE = $(PROJECT)-$(BRANCH)-$(GITHASH)
-BLOG_POST_NAME ?= journal-post-$(date +%m-%d-%y@%H:%M).md
-HUGO_THEME ?= blog-theme
+BLOG_POST_LOCATION = ~/Dropbox/Notes/blog
+HUGO_THEME ?= casper
 FORWARDED_PORT ?= 0.0.0.0:1313:1313
 
 
@@ -14,13 +14,13 @@ docker-build:
 shell: docker-build
 	docker run --rm -it -p $(FORWARDED_PORT) -v $(shell pwd):/opt/$(PROJECT) $(IMAGE) /bin/bash
 
-server: docker-build
+update_posts: docker-build
+    echo "Generating blog posts from notes directory"
+	./generate.sh $(BLOG_POST_LOCATION) $(shell pwd)/hugo
+
+server: update_posts
 	echo "Starting hugo server. Connect at `docker-machine ip dev`"
 	docker run --rm -it -p $(FORWARDED_PORT) -v $(shell pwd):/opt/$(PROJECT) -e PROJECT=$(PROJECT) $(IMAGE) /bin/bash start.sh
-
-new-post: docker-build
-	docker run --rm -it -p $(FORWARDED_PORT) -v $(shell pwd):/opt/$(PROJECT) $(IMAGE) /bin/bash -c ' \
-	hugo new --theme $(HUGO_THEME) post/$(BLOG_POST_NAME)'
 
 build: docker-build
 
@@ -28,4 +28,3 @@ build: docker-build
 # push: build
 
 .PHONY: docker-build shell server new-post build push
-

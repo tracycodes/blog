@@ -1,6 +1,20 @@
-baseurl: tracycodes.com
+BaseUrl: http://tracycodes.com
 languageCode: en-us
-title: tracycodes
+title: Tracy L
+paginate: 5
+theme: casper
+DisqusShortname: "tracycodes"
+Copyright: "© 2015"
+canonifyurls: true
 params:
-  name: Tracy Livengood
-theme: blog-theme
+  description: "Thinking..."
+  cover: "images/cover.jpg"
+  author: "Tracy Livengood"
+  authorlocation: "Menlo Park, CA"
+  authorwebsite: "http://tracycodes.com"
+  bio: "my bio"
+  googleAnalyticsUserID: "UA-73157106-1"
+  githubName: "tracycodes"
+  twitterName: "tracycodes"
+  linkedinName: "tracy-livengood-39b29210"
+  hideHUGOSupport: true

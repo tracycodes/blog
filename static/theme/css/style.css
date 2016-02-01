@@ -1,8 +1,0 @@
-header, footer, section, div, span, a, ul, li, img, h1 {
-    all: initial;
-    font-family: 'Droid Sans', sans-serif;
-}
-
-h1 {
-    font-size: 2rem;
-}
