@@ -14,10 +14,14 @@ docker-build:
 shell: docker-build
 	docker run --rm -it -p $(FORWARDED_PORT) -v $(shell pwd):/opt/$(PROJECT) $(IMAGE) /bin/bash
 
-update_posts: docker-build
-	./generate.sh $(BLOG_POST_LOCATION) $(shell pwd)/hugo
+generate: docker-build
+	# Find and remove all existing files except the .keep
+	find $(shell pwd)/hugo/content/post -type f -not -path '*/\.*' -execdir rm {} \;
+	cp -r $(BLOG_POST_LOCATION)/* $(shell pwd)/hugo/content/post
+	# Update posts to remove smart quotes
+	find $(shell pwd)/hugo/content/post/ -type f -execdir sed -i "" s/[”“]/'"'/g {} \;
 
-server: update_posts
+server: generate
 	echo "Starting hugo server. Connect at `docker-machine ip dev`"
 	docker run --rm -it -p $(FORWARDED_PORT) -v $(shell pwd):/opt/$(PROJECT) -e PROJECT=$(PROJECT) $(IMAGE) /bin/bash start.sh
 
@@ -26,4 +30,4 @@ build: docker-build
 # push to google cloud storage with version tag and creds
 # push: build
 
-.PHONY: docker-build shell server new-post build push
+.PHONY: docker-build shell server genearte build push
